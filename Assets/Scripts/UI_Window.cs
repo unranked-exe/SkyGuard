@@ -18,6 +18,6 @@ public class UI_Window : MonoBehaviour
 
     public void readInput(string input)
     {
-        Debug.Log(input);
+        Debug.Log("User input: " + input);
     }
 }

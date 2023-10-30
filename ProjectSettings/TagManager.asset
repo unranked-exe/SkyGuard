@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Plane
   layers:
   - Default
   - TransparentFX
@@ -43,6 +44,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2158068351
+    locked: 0
+  - name: GameLayer
+    uniqueID: 2882395503
     locked: 0
   - name: UI
     uniqueID: 1965703969
