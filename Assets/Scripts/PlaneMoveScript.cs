@@ -20,4 +20,9 @@ public class PlaneMoveScript : MonoBehaviour
         //Set the velocity of the plane to the up direction multiplied by the speed
         _PlaneRB.velocity = transform.up * _PlaneSpeed;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if collision.gameObject
+    }
 }

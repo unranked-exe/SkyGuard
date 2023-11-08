@@ -14,7 +14,11 @@ public class SpawnerScript : MonoBehaviour
 
     // This is an array of the spawnable points.
     private static Vector2[] spawnablePoints = new Vector2[] {new Vector2(0, 8), new Vector2(11, 0), new Vector2(-11, 0)};
-    
+
+    // This is a reference to the floating text prefab.
+    [SerializeField] private GameObject floatingText;
+
+
     void Start()
     {
         // This starts the coroutine that will spawn the planes.
@@ -28,8 +32,10 @@ public class SpawnerScript : MonoBehaviour
         {
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
+            GameObject planeInstance;
             // This instantiates plane prefab
-            Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
+            planeInstance = Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
+            Instantiate(floatingText, transform.position, Quaternion.identity).transform.SetParent(planeInstance.transform);
             transform.position = MoveSpawner();
         }
     }
