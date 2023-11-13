@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
 {
+    //Creates 1 instance of the SpawnerScript
+    public static SpawnerScript instance;
+
     // This is the interval between spawns.
     [SerializeField] private float _spawnInterval;
     
@@ -15,12 +18,22 @@ public class SpawnerScript : MonoBehaviour
     // This is an array of the spawnable points.
     private static Vector2[] spawnablePoints = new Vector2[] {new Vector2(0, 8), new Vector2(11, 0), new Vector2(-11, 0)};
     // This is an array of the airline prefixes.
-    [SerializeField] private static string[] airlinePrefix = new string[4] {"AI", "BA", "EY", "SV"};
+    private static string[] airlinePrefix = new string[4] {"AI", "BA", "EY", "SV"};
     
-    void Start()
+    void Awake()
     {
-        // This starts the coroutine that will spawn the planes.
-        StartCoroutine(SpawnPlane());
+        //If there is no instance of the SpawnerScript, set it to this
+        if (instance == null)
+        {
+            instance = this;
+            // This starts the coroutine that will spawn the planes.
+            StartCoroutine(SpawnPlane());
+        }
+        //If there is an instance of the SpawnerScript, destroy this
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // This is the coroutine that will spawn the planes.
@@ -30,10 +43,8 @@ public class SpawnerScript : MonoBehaviour
         {
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
-            
             // This instantiates plane prefab while also setting this instance to a variable.
-            GameObject instance =  Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
-            instance.name = PlaneNamer();
+            Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
             //Shifts the position for spawner for next spawning
             transform.position = MoveSpawner();
         }
@@ -76,7 +87,7 @@ public class SpawnerScript : MonoBehaviour
     }
 
     // This method will return the name of the plane.
-    private string PlaneNamer()
+    public string PlaneNamer()
     {
         //Local variable to store the name of the plane
         string newName;
