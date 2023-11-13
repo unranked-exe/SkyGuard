@@ -9,7 +9,7 @@ public class PlaneMoveScript : MonoBehaviour
     [SerializeField] private Rigidbody2D _PlaneRB;
     //Reference to the speed of the plane
     [SerializeField] private float _PlaneSpeed;
-    
+
     //Reference to the floating text game object
     [SerializeField] private GameObject floatingText;
     //Reference to the text mesh component of the floating text
@@ -44,7 +44,20 @@ public class PlaneMoveScript : MonoBehaviour
         int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
         //Calcualtes the real bearing of the plane
         rot = 360 - rot;
-        //Appends the text of the floating text with it's rotation
+        //Appends the text of the floating text with it's rotation.
         textmesh.text += "\n" + rot.ToString() + "°";
+    }
+
+    //Function to destroy the plane if collision is detected.
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Checks if the collision is with the plane.
+        if (collision.gameObject.CompareTag("Plane"))
+        {
+            //Debugiing purposes.
+            Debug.Log("Collision Detected" + collision.gameObject.name);
+            //Destroys the floating text.
+            Destroy(transform.GetChild(0).gameObject);
+        }
     }
 }
