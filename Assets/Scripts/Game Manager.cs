@@ -11,10 +11,30 @@ public class GameManager : MonoBehaviour
     //Variable to the current state of the game.
     public GameState State;
 
+    //Event that is called when the state of the game changes.
+    public static event Action<GameState> OnGameStateChanged;
+
+    //Enumertor that holds the different states of the game.
+    public enum GameState
+    {
+        Playing,
+        EndOfRound,
+        Paused,
+        GameOver
+    }
+    
     private void Awake()
     {
-        //Sets the instance of the GameManager to this.
-        instance = this;
+        //Check if instance already exists
+        if (instance == null)
+            //Sets the instance of the GameManager to this.
+            instance = this;
+        //If instance already exists and it's not this:
+        else if (instance != this)
+            //Then destroy this as there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        //Sets the current GameState to Playing.
+        UpdateGameState(GameState.Playing);
     }
 
     public void UpdateGameState(GameState newState)
@@ -28,24 +48,26 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 //Do something
                 break;
+            case GameState.EndOfRound:
+                //Do something
+                break;
             case GameState.Paused:
                 //Do something
                 break;
             case GameState.GameOver:
-                //Do something
+                //Calls the HandleGameOver method that allowsy the manager to halt the timescale.
+                HandleGameOver();
                 break;
             default:
                 //For debugging purposes in later stages of development.
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
+        //Calls the OnGameStateChanged event.
+        OnGameStateChanged?.Invoke(State);
     }
 
-
-    //Enumertor that holds the different states of the game.
-    public enum GameState
+    private void HandleGameOver()
     {
-        Playing,
-        Paused,
-        GameOver
+        
     }
 }
