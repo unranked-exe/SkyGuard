@@ -14,14 +14,7 @@ public class GameManager : MonoBehaviour
     //Event that is called when the state of the game changes.
     public static event Action<GameState> OnGameStateChanged;
 
-    //Enumertor that holds the different states of the game.
-    public enum GameState
-    {
-        Playing,
-        EndOfRound,
-        Paused,
-        GameOver
-    }
+ 
     
     private void Awake()
     {
@@ -68,6 +61,16 @@ public class GameManager : MonoBehaviour
 
     private void HandleGameOver()
     {
-        
+        //Pauses all movement in the game.
+        Time.timeScale = 0;
     }
+}
+
+//Enumertor that holds the different states of the game.
+public enum GameState
+{
+    Playing,
+    EndOfRound,
+    Paused,
+    GameOver
 }

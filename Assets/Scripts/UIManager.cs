@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UIManager : MonoBehaviour
+{
+    //Reference to the GameOverScreen
+    [SerializeField] private GameObject gameOverScreen;
+
+    private void Awake()
+    {
+        //Subscribes to the OnGameStateChanged event.
+        GameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
+           
+    }
+
+    private void OnDestroy()
+    {
+        //Unsubscribes from the OnGameStateChanged event.
+        GameManager.OnGameStateChanged -= GameManager_OnGameStateChanged;
+    }
+
+    //Function that is called when the OnGameStateChanged event is invoked.
+    private void GameManager_OnGameStateChanged(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.GameOver:
+                //Displays the GameOverScreen.
+                gameOverScreen.SetActive(true);
+                break;
+            case GameState.Playing:
+                //Displays the GameOverScreen..
+                gameOverScreen.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
+    
+}

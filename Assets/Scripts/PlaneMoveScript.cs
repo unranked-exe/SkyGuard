@@ -59,7 +59,7 @@ public class PlaneMoveScript : MonoBehaviour
             //Destroys the floating text.
             Destroy(transform.GetChild(0).gameObject);
             //Sets the game state to GameOver.
-            GameManager.instance.UpdateGameState(GameManager.GameState.GameOver);
+            GameManager.instance.UpdateGameState(GameState.GameOver);
         }
     }
 }
