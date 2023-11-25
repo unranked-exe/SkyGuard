@@ -26,8 +26,13 @@ public class UIManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameOver:
-                //Displays the GameOverScreen.
-                gameOverScreen.SetActive(true);
+                StartCoroutine(HandleGameOver());
+                IEnumerator HandleGameOver()
+                {
+                    yield return new WaitForSecondsRealtime(2f);
+                    //Displays the GameOverScreen.
+                    gameOverScreen.SetActive(true);
+                }
                 break;
             case GameState.Playing:
                 //Displays the GameOverScreen..
@@ -37,5 +42,11 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
-    
+
+    //Called when the Restart button is pressed.
+    public void Restart()
+    {
+        //Sets the GameState to Restart.
+        GameManager.instance.UpdateGameState(GameState.Restart);
+    } 
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class GameManager : MonoBehaviour
     //Event that is called when the state of the game changes.
     public static event Action<GameState> OnGameStateChanged;
 
- 
+    //Reference to the collision effect object.
+    public Transform collisionEffect;
     
     private void Awake()
     {
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         //Sets the current GameState to Playing.
         UpdateGameState(GameState.Playing);
+        
     }
 
     public void UpdateGameState(GameState newState)
@@ -51,6 +54,10 @@ public class GameManager : MonoBehaviour
                 //Calls the HandleGameOver method that allowsy the manager to halt the timescale.
                 HandleGameOver();
                 break;
+            case GameState.Restart:
+                //Do something
+                HandleRestart();
+                break;
             default:
                 //For debugging purposes in later stages of development.
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -63,6 +70,15 @@ public class GameManager : MonoBehaviour
     {
         //Pauses all movement in the game.
         Time.timeScale = 0;
+        
+    }
+
+    private void HandleRestart()
+    {
+        //Resumes all movement in the game.
+        Time.timeScale = 1;
+        //Reloads the current scene.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 
@@ -72,5 +88,6 @@ public enum GameState
     Playing,
     EndOfRound,
     Paused,
-    GameOver
+    GameOver,
+    Restart
 }
