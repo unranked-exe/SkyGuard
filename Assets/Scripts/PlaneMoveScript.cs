@@ -58,8 +58,8 @@ public class PlaneMoveScript : MonoBehaviour
             Debug.Log("Collision Detected" + collision.gameObject.name);
             //Destroys the floating text.
             Destroy(transform.GetChild(0).gameObject);
-            //Mpves the collision effect to the point of collision.
-            GameManager.instance.collisionEffect.position = collision.GetContact(0).point;
+            //Moves the collision effect to the point of collision.
+            GameManager.instance.collisionEffect.transform.position = collision.GetContact(0).point;
             //Sets the game state to GameOver.
             GameManager.instance.UpdateGameState(GameState.GameOver);
         }

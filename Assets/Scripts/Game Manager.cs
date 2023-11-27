@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     //Reference to the collision effect object.
-    public Transform collisionEffect;
+    public GameObject collisionEffect;
     
     private void Awake()
     {
@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         //Sets the current GameState to Playing.
         UpdateGameState(GameState.Playing);
-        
     }
 
     public void UpdateGameState(GameState newState)
@@ -70,7 +69,6 @@ public class GameManager : MonoBehaviour
     {
         //Pauses all movement in the game.
         Time.timeScale = 0;
-        
     }
 
     private void HandleRestart()

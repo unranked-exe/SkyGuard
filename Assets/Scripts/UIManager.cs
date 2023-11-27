@@ -29,6 +29,9 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(HandleGameOver());
                 IEnumerator HandleGameOver()
                 {
+                    //Sets the collision effect to active.
+                    GameManager.instance.collisionEffect.SetActive(true);
+                    //Waits for 2 seconds (unscaled time) to play crash animation.
                     yield return new WaitForSecondsRealtime(2f);
                     //Displays the GameOverScreen.
                     gameOverScreen.SetActive(true);
