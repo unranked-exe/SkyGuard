@@ -64,4 +64,22 @@ public class PlaneMoveScript : MonoBehaviour
             GameManager.instance.UpdateGameState(GameState.GameOver);
         }
     }
+
+    private void OnBecameInvisible()
+    {
+        //Checks if the game state is Playing and the tag of the object is Plane.
+        if ((gameObject.tag == "Plane") && (GameManager.instance.State == GameState.Playing))
+        {
+            Debug.Log("Plane not visible");
+            //Destroys the plane if it goes off screen.
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnBecameVisible()
+    {
+        //Has come into Camera View and now has a tag of Plane.
+        gameObject.tag = "Plane";
+        Debug.Log("Plane visible");
+    }
 }

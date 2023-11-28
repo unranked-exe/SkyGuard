@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 7965839566587651046}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Plane
+  m_TagString: NotSeen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,4 +337,3 @@ MonoBehaviour:
   _PlaneSpeed: 0.46
   floatingText: {fileID: 2038618473268904907}
   textmesh: {fileID: 3687666774722484083}
-  _name: 

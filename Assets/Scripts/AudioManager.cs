@@ -25,6 +25,9 @@ public class AudioManager : MonoBehaviour
             instance = this;
             //Dont destroy this instance of the AudioManager when loading a new scene
             DontDestroyOnLoad(gameObject);
+            //Sets the background music clip and plays it
+            backgroundMusicSource.clip = backgroundSound;
+            backgroundMusicSource.Play();
         }
         //If there is an instance of the AudioManager, destroy this
         else
@@ -33,9 +36,6 @@ public class AudioManager : MonoBehaviour
         }
         //Subscribes to the OnGameStateChanged event.
         GameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
-
-        backgroundMusicSource.clip = backgroundSound;
-        backgroundMusicSource.Play();
     }
     private void OnDestroy()
     {
