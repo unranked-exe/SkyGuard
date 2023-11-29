@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -7,11 +8,16 @@ public class UIManager : MonoBehaviour
     //Reference to the GameOverScreen
     [SerializeField] private GameObject gameOverScreen;
 
+    //Reference to the score text component
+    [SerializeField] private TextMeshProUGUI scoreText;
+    //Reference to the score counter in UI.
+    [SerializeField] private TextMeshProUGUI scoreCounterInEnd;
+
+
     private void Awake()
     {
         //Subscribes to the OnGameStateChanged event.
         GameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
-           
     }
 
     private void OnDestroy()
@@ -31,6 +37,8 @@ public class UIManager : MonoBehaviour
                 {
                     //Sets the collision effect to active.
                     GameManager.instance.collisionEffect.SetActive(true);
+                    //Sets the score counter in the GameOverScreen to the score.
+                    scoreCounterInEnd.text = "Score: " + GameManager.instance.GetScore();
                     //Waits for 2 seconds (unscaled time) to play crash animation.
                     yield return new WaitForSecondsRealtime(2f);
                     //Displays the GameOverScreen.
@@ -51,5 +59,12 @@ public class UIManager : MonoBehaviour
     {
         //Sets the GameState to Restart.
         GameManager.instance.UpdateGameState(GameState.Restart);
-    } 
+    }
+
+    //Called by Game Manager to update the score text.
+    public void UpdateScore(int scoreToDisplay)
+    {
+        //Sets the score text to the score counter.
+        scoreText.text = scoreToDisplay.ToString();
+    }
 }

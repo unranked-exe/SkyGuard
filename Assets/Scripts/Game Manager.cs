@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     //Reference to the instance of the GameManager
     public static GameManager instance;
 
-    //Variable to the current state of the game.
+    //Variable to hold the current state of the game.
     public GameState State;
 
     //Event that is called when the state of the game changes.
@@ -17,6 +17,15 @@ public class GameManager : MonoBehaviour
 
     //Reference to the collision effect object.
     public GameObject collisionEffect;
+
+    //Variable to hold the previously selected plane.
+    public GameObject PreviousSelection;
+
+    //Reference to the UI Canvas.
+    [SerializeField] private UIManager UIManager;
+
+    //Reference to the score counter.
+    private int score = 0;
     
     private void Awake()
     {
@@ -77,6 +86,20 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         //Reloads the current scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    //Function to add to the score counter.
+    public void AddScore()
+    {
+        //Adds 1 to the score counter.
+        score++;
+        //Updates the score counter in the UI.
+        UIManager.UpdateScore(score);
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }
 

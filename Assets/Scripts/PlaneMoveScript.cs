@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class PlaneMoveScript : MonoBehaviour
+public class PlaneMoveScript : MonoBehaviour, IPointerClickHandler
 {
     //Reference to the Rigidbody2D component of the plane
     [SerializeField] private Rigidbody2D _PlaneRB;
@@ -73,6 +75,8 @@ public class PlaneMoveScript : MonoBehaviour
             Debug.Log("Plane not visible");
             //Destroys the plane if it goes off screen.
             Destroy(gameObject);
+            //Adds 1 to the score counter.
+            GameManager.instance.AddScore();
         }
     }
 
@@ -81,5 +85,17 @@ public class PlaneMoveScript : MonoBehaviour
         //Has come into Camera View and now has a tag of Plane.
         gameObject.tag = "Plane";
         Debug.Log("Plane visible");
+    }
+
+    //Function to handle the click event.
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //Checks if the game state is playing and the previous selection is not the current selection.
+        if ((GameManager.instance.State == GameState.Playing) && (GameManager.instance.PreviousSelection != gameObject))
+        {
+            //Sets the current selection to the previous selection.
+            GameManager.instance.PreviousSelection = gameObject;
+            Debug.Log("Clicked");
+        }
     }
 }
