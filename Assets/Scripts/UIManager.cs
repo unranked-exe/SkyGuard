@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     //Reference to the score counter in UI.
     [SerializeField] private TextMeshProUGUI scoreCounterInEnd;
 
+    //Reference to the selected plane text component
+    [SerializeField] private TextMeshProUGUI selectedPlane;
+
 
     private void Awake()
     {
@@ -66,5 +69,11 @@ public class UIManager : MonoBehaviour
     {
         //Sets the score text to the score counter.
         scoreText.text = scoreToDisplay.ToString();
+    }
+
+    public void UpdateSelectedPlane(string planeName)
+    {
+        //Sets the selected plane text to the name of the plane.
+        selectedPlane.text = "Plane Name: " + planeName;
     }
 }

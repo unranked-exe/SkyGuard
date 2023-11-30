@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -100,6 +101,22 @@ public class GameManager : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public void PlaneDeselection()
+    {
+        //Updates the selected plane text in the UI.
+        UIManager.UpdateSelectedPlane("None");
+        PreviousSelection.GetComponent<Renderer>().material.color = Color.white;
+        PreviousSelection = null;
+    }
+    //Function to update the selected plane text.
+    public void PlaneSelection()
+    {
+        //Updates the selected plane text in the UI.
+        UIManager.UpdateSelectedPlane(PreviousSelection.name);
+        PreviousSelection.GetComponent<Renderer>().material.color = Color.red;
+
     }
 }
 

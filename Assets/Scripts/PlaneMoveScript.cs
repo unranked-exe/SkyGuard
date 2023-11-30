@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlaneMoveScript : MonoBehaviour, IPointerClickHandler
+public class PlaneMoveScript : MonoBehaviour
 {
     //Reference to the Rigidbody2D component of the plane
     [SerializeField] private Rigidbody2D _PlaneRB;
@@ -87,15 +87,20 @@ public class PlaneMoveScript : MonoBehaviour, IPointerClickHandler
         Debug.Log("Plane visible");
     }
 
-    //Function to handle the click event.
-    public void OnPointerClick(PointerEventData eventData)
+    private void OnMouseUpAsButton()
     {
         //Checks if the game state is playing and the previous selection is not the current selection.
         if ((GameManager.instance.State == GameState.Playing) && (GameManager.instance.PreviousSelection != gameObject))
         {
+            if (GameManager.instance.PreviousSelection != null)
+            {
+                //Calls the PlaneDeselection function in the Game Manager.
+                GameManager.instance.PlaneDeselection();
+            }
             //Sets the current selection to the previous selection.
             GameManager.instance.PreviousSelection = gameObject;
-            Debug.Log("Clicked");
+            //Calls the PlaneSelection function in the Game Manager.
+            GameManager.instance.PlaneSelection();
         }
     }
 }
