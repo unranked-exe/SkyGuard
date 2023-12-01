@@ -1508,7 +1508,7 @@ MonoBehaviour:
   gameOverScreen: {fileID: 860168232}
   scoreText: {fileID: 1636310218}
   scoreCounterInEnd: {fileID: 692232700}
-  selectedPlane: {fileID: 796346507}
+  selectedPlaneUIWindow: {fileID: 796346507}
 --- !u!1 &632964743
 GameObject:
   m_ObjectHideFlags: 0
