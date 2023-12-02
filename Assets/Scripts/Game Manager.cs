@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviour
 
     private void HandleGameOver()
     {
+        if (PreviousSelection != null)
+            //Calls the PlaneDeselection function to clear Previous slection variable.
+            PlaneDeselection();
         //Pauses all movement in the game.
         Time.timeScale = 0;
     }

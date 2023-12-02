@@ -72,7 +72,13 @@ public class PlaneMoveScript : MonoBehaviour
         //Checks if the game state is Playing and the tag of the object is Plane.
         if ((gameObject.tag == "Plane") && (GameManager.instance.State == GameState.Playing))
         {
-            Debug.Log("Plane not visible");
+            Debug.Log("Plane invisible");
+            //Checks if the previous selection is the current selection.
+            if (GameManager.instance.PreviousSelection == gameObject)
+            {
+                //This is to prevent on off screen Plane from being selected/controlable.
+                GameManager.instance.PlaneDeselection();
+            }
             //Destroys the plane if it goes off screen.
             Destroy(gameObject);
             //Adds 1 to the score counter.
