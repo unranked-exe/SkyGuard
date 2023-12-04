@@ -76,4 +76,18 @@ public class UIManager : MonoBehaviour
         //Sets the selected plane text to the name of the plane.
         selectedPlaneUIWindow.text = "Plane Name: " + planeName;
     }
+
+    //Called when the user enters bearing in input field.
+    public void readBearing(string input)
+    {
+        //Checks if the input is 3 characters long just like a bearing.
+        //Also checks if a plane is selected.
+        if (input.Length == 3 && GameManager.instance.PreviousSelection != null)
+        {
+            //Converts the input to an integer.
+            int bearing = int.Parse(input);
+            //Calls the MoveRotation method in the Game Manager.
+            GameManager.instance.MoveRotation(bearing);
+        }
+    }
 }

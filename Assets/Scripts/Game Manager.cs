@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -120,6 +121,32 @@ public class GameManager : MonoBehaviour
         UIManager.UpdateSelectedPlane(PreviousSelection.name);
         PreviousSelection.GetComponent<Renderer>().material.color = Color.red;
 
+    }
+
+    public void MoveRotation(int bearing)
+    {
+        Rigidbody2D rb = PreviousSelection.GetComponent<Rigidbody2D>();
+        float currentBearing = rb.rotation;
+        Debug.Log("Current Bearing: " + currentBearing);
+        float deltaBearing = bearing - currentBearing;
+        if (deltaBearing != 0)
+        {
+            //TO DO: Add rotation code here.
+        }
+
+        /*public void MoveRotation(int bearing)
+        {
+            Rigidbody2D rb = PreviousSelection.GetComponent<Rigidbody2D>();
+            bearing = 360 - bearing;
+            float currentBearing = rb.rotation;
+            Debug.Log("Current Bearing: " + currentBearing);
+            float deltaBearing = bearing - currentBearing;
+            if (deltaBearing != 0)
+            {
+                //turns to left
+                //planeMoveScript.StartRotate(bearing);
+            }
+        }*/
     }
 }
 

@@ -17,7 +17,6 @@ public class PlaneMoveScript : MonoBehaviour
     //Reference to the text mesh component of the floating text
     [SerializeField] private TextMeshPro textmesh;
 
-
     private void Awake()
     {
         //Set the rotation of the Floating Text to upright
@@ -36,18 +35,44 @@ public class PlaneMoveScript : MonoBehaviour
         //Set the velocity of the plane to the up direction multiplied by the speed
         _PlaneRB.velocity = transform.up * _PlaneSpeed;
     }
+    
+
+   /* public void StartRotate(float bearing)
+    {
+        StartCoroutine(RotateUpdate(bearing));
+    }
+    IEnumerator RotateUpdate(float targetBearing)
+    {
+        float currentBearing = _PlaneRB.rotation;
+        while (currentBearing != targetBearing)
+        {
+            currentBearing = Mathf.MoveTowardsAngle(currentBearing, targetBearing, 1);
+
+            _PlaneRB.MoveRotation(currentBearing);
+            OutputBearing();
+
+            yield return new WaitForFixedUpdate();
+        }
+        OutputBearing();
+    }*/
 
     //Function to output the bearing of the plane for Floating Text
-    public void OutputBearing()
+    private void OutputBearing()
     {
-        //Set the text of the floating text to the name of the plane
-        textmesh.text = gameObject.name;
-        //Get the rotation of the plane
-        int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
-        //Calcualtes the real bearing of the plane
-        rot = 360 - rot;
-        //Appends the text of the floating text with it's rotation.
-        textmesh.text += "\n" + rot.ToString() + "°";
+        //Checks if the text of the floating text is not the same as the name of the plane
+        if (textmesh.text != gameObject.name)
+        {
+            floatingText.transform.rotation = Quaternion.identity;
+            //Set the text of the floating text to the name of the plane
+            textmesh.text = gameObject.name;
+            //Get the rotation of the plane
+            int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
+            //Calcualtes the real bearing of the plane
+            rot = 360 - rot;
+            //Appends the text of the floating text with it's rotation.
+            textmesh.text += "\n" + rot.ToString() + "°";
+        }
+        
     }
 
     //Function to destroy the plane if collision is detected.
@@ -108,5 +133,10 @@ public class PlaneMoveScript : MonoBehaviour
             //Calls the PlaneSelection function in the Game Manager.
             GameManager.instance.PlaneSelection();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlane();
     }
 }
