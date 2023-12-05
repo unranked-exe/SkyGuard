@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SpawnerScript : MonoBehaviour
 {
     //Creates 1 instance of the SpawnerScript
     public static SpawnerScript instance;
 
+    //Holds the round the player is on.
+    public int roundNumber = 0;
+
     // This is the interval between spawns.
     [SerializeField] private float _spawnInterval;
-    
+    // This is the number of planes to spawn in a round.
+    [SerializeField] private float _planesToSpawn = 5;
+    // This is the number of planes that have been spawned in a round.
+    [SerializeField] private float _planesSpawned = 0;
+
     // This is a reference to the prefab that will be spawned.
     [SerializeField] private GameObject plane;
 
@@ -26,6 +34,7 @@ public class SpawnerScript : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            roundNumber = 1;
             // This starts the coroutine that will spawn the planes.
             StartCoroutine(SpawnPlane());
         }
@@ -36,10 +45,26 @@ public class SpawnerScript : MonoBehaviour
         }
     }
 
+    // This method will check if all planes have been spawned in a round.
+    private void CheckEndOfRound()
+    {
+        //If all planes have been spawned
+        if (_planesSpawned == _planesToSpawn)
+        {
+            //Set the game state to EndOfRound
+            GameManager.instance.UpdateGameState(GameState.EndOfRound);
+            //Increment the round number
+            roundNumber++;
+        }
+    }
+    
+    
+    
     // This is the coroutine that will spawn the planes.
     IEnumerator SpawnPlane()
     {
-        while (true)
+        //Checks if the game is playing
+        while (GameManager.instance.State == GameState.Playing)
         {
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
@@ -47,7 +72,13 @@ public class SpawnerScript : MonoBehaviour
             Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
             //Shifts the position for spawner for next spawning
             transform.position = MoveSpawner();
+            //Increments the number of planes spawned
+            _planesSpawned++;
+            //Checks all planes to be spawned in round have been spawned.
+            CheckEndOfRound();
         }
+        //Stops the coroutine. Using stop corutine does not work on this instance.
+        yield break;
     }
     
     // This method will move the spawner to a random point on the screen.

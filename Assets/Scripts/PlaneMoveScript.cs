@@ -50,6 +50,7 @@ public class PlaneMoveScript : MonoBehaviour
         //Runs untill the current bearing is the same as the target bearing.
         while (currentBearing != targetBearing)
         {
+            MovePlane();
             //Calucaltes rotation per frame to smoothly turn towards the target bearing.
             currentBearing = Mathf.MoveTowardsAngle(currentBearing, targetBearing, 1);
             //Sets the rotation of the plane to the current bearing.
@@ -126,6 +127,6 @@ public class PlaneMoveScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlane();
+        
     }
 }
