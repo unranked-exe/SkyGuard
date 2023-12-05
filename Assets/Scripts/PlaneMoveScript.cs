@@ -35,26 +35,33 @@ public class PlaneMoveScript : MonoBehaviour
         //Set the velocity of the plane to the up direction multiplied by the speed
         _PlaneRB.velocity = transform.up * _PlaneSpeed;
     }
-    
 
-   /* public void StartRotate(float bearing)
+
+    public void StartRotate(float bearing)
     {
         StartCoroutine(RotateUpdate(bearing));
     }
+    
+    //Function to rotate the plane towards the target bearing.
     IEnumerator RotateUpdate(float targetBearing)
     {
+        //Get the current bearing of the plane.
         float currentBearing = _PlaneRB.rotation;
+        //Runs untill the current bearing is the same as the target bearing.
         while (currentBearing != targetBearing)
         {
+            //Calucaltes rotation per frame to smoothly turn towards the target bearing.
             currentBearing = Mathf.MoveTowardsAngle(currentBearing, targetBearing, 1);
-
+            //Sets the rotation of the plane to the current bearing.
             _PlaneRB.MoveRotation(currentBearing);
+            //Displays this change in bearing in the floating text.
             OutputBearing();
-
+            //Wait for the next fixed update.
             yield return new WaitForFixedUpdate();
         }
+        //Displays the final bearing in the floating text.
         OutputBearing();
-    }*/
+    }
 
     //Function to output the bearing of the plane for Floating Text
     private void OutputBearing()
@@ -72,7 +79,6 @@ public class PlaneMoveScript : MonoBehaviour
             //Appends the text of the floating text with it's rotation.
             textmesh.text += "\n" + rot.ToString() + "°";
         }
-        
     }
 
     //Function to destroy the plane if collision is detected.
@@ -116,23 +122,6 @@ public class PlaneMoveScript : MonoBehaviour
         //Has come into Camera View and now has a tag of Plane.
         gameObject.tag = "Plane";
         Debug.Log("Plane visible");
-    }
-
-    private void OnMouseUpAsButton()
-    {
-        //Checks if the game state is playing and the previous selection is not the current selection.
-        if ((GameManager.instance.State == GameState.Playing) && (GameManager.instance.PreviousSelection != gameObject))
-        {
-            if (GameManager.instance.PreviousSelection != null)
-            {
-                //Calls the PlaneDeselection function in the Game Manager.
-                GameManager.instance.PlaneDeselection();
-            }
-            //Sets the current selection to the previous selection.
-            GameManager.instance.PreviousSelection = gameObject;
-            //Calls the PlaneSelection function in the Game Manager.
-            GameManager.instance.PlaneSelection();
-        }
     }
 
     private void FixedUpdate()

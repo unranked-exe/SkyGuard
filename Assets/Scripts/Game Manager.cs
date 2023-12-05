@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     //Reference to the score counter.
     private int score = 0;
+
+    public float turning = 1f;
     
     private void Awake()
     {
@@ -125,28 +127,21 @@ public class GameManager : MonoBehaviour
 
     public void MoveRotation(int bearing)
     {
+        //Gets the Rigidbody2D component of the previously selected plane.
         Rigidbody2D rb = PreviousSelection.GetComponent<Rigidbody2D>();
+        //Converts the bearing to the correct rotation.
+        bearing = 360 - bearing;
+        //Gets the current rotation of the plane.
         float currentBearing = rb.rotation;
         Debug.Log("Current Bearing: " + currentBearing);
         float deltaBearing = bearing - currentBearing;
+        //Checks if the bearing to change by is not 0.
         if (deltaBearing != 0)
         {
-            //TO DO: Add rotation code here.
+            Debug.Log("Delta Bearing: " + deltaBearing);
+            PlaneMoveScript planeMoveScript = PreviousSelection.GetComponent<PlaneMoveScript>();
+            planeMoveScript.StartRotate(bearing);
         }
-
-        /*public void MoveRotation(int bearing)
-        {
-            Rigidbody2D rb = PreviousSelection.GetComponent<Rigidbody2D>();
-            bearing = 360 - bearing;
-            float currentBearing = rb.rotation;
-            Debug.Log("Current Bearing: " + currentBearing);
-            float deltaBearing = bearing - currentBearing;
-            if (deltaBearing != 0)
-            {
-                //turns to left
-                //planeMoveScript.StartRotate(bearing);
-            }
-        }*/
     }
 }
 
