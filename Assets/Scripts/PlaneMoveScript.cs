@@ -77,8 +77,17 @@ public class PlaneMoveScript : MonoBehaviour
             int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
             //Calcualtes the real bearing of the plane
             rot = 360 - rot;
+            string rotString = rot.ToString();
+            if (rotString.Length == 1)
+            {
+                rotString = "00" + rotString;
+            }
+            else if (rotString.Length == 2)
+            {
+                rotString = "0" + rotString;
+            }
             //Appends the text of the floating text with it's rotation.
-            textmesh.text += "\n" + rot.ToString() + "°";
+            textmesh.text += "\n" + rotString  + "°";
         }
     }
 
@@ -102,7 +111,7 @@ public class PlaneMoveScript : MonoBehaviour
     private void OnBecameInvisible()
     {
         //Checks if the game state is Playing and the tag of the object is Plane.
-        if ((gameObject.tag == "Plane") && (GameManager.instance.State == GameState.Playing))
+        if ((gameObject.tag == "Plane") && ((GameManager.instance.State == GameState.Playing) || (GameManager.instance.State == GameState.EndOfRound)))
         {
             Debug.Log("Plane invisible");
             //Checks if the previous selection is the current selection.

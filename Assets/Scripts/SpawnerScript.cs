@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class SpawnerScript : MonoBehaviour
 {
-    //Creates 1 instance of the SpawnerScript
+    //Creates 1 instance of the SpawnerScript.
     public static SpawnerScript instance;
 
     //Holds the round the player is on.
@@ -30,15 +30,16 @@ public class SpawnerScript : MonoBehaviour
     
     void Awake()
     {
-        //If there is no instance of the SpawnerScript, set it to this
+        //If there is no instance of the SpawnerScript, set it to this.
         if (instance == null)
         {
             instance = this;
+            //Set the round number to 1
             roundNumber = 1;
-            // This starts the coroutine that will spawn the planes.
-            StartCoroutine(SpawnPlane());
+            
+            
         }
-        //If there is an instance of the SpawnerScript, destroy this
+        //If there is an instance of the SpawnerScript, destroy this.
         else
         {
             Destroy(gameObject);
@@ -48,17 +49,19 @@ public class SpawnerScript : MonoBehaviour
     // This method will check if all planes have been spawned in a round.
     private void CheckEndOfRound()
     {
-        //If all planes have been spawned
+        //Checks if all planes have been spawned.
         if (_planesSpawned == _planesToSpawn)
         {
-            //Set the game state to EndOfRound
+            //Set the game state to EndOfRound.
             GameManager.instance.UpdateGameState(GameState.EndOfRound);
-            //Increment the round number
+            //Increments the round number.
             roundNumber++;
+            //Reset the number of planes spawned for the next round.
+            _planesSpawned = 0;
+            //Increases the number of planes to spawn in next round.
+            _planesToSpawn += 2;
         }
     }
-    
-    
     
     // This is the coroutine that will spawn the planes.
     IEnumerator SpawnPlane()
@@ -66,67 +69,74 @@ public class SpawnerScript : MonoBehaviour
         //Checks if the game is playing
         while (GameManager.instance.State == GameState.Playing)
         {
+            Debug.Log("co");
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
             // This instantiates plane prefab while also setting this instance to a variable.
             Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
-            //Shifts the position for spawner for next spawning
+            //Shifts the position for spawner for next spawning.
             transform.position = MoveSpawner();
-            //Increments the number of planes spawned
+            //Increments the number of planes spawned.
             _planesSpawned++;
             //Checks all planes to be spawned in round have been spawned.
             CheckEndOfRound();
         }
-        //Stops the coroutine. Using stop corutine does not work on this instance.
+        //Stops the coroutine. Using stop method inside of coroutine does not work on this instance.
         yield break;
     }
     
     // This method will move the spawner to a random point on the screen.
     private Vector2 MoveSpawner()
     {
-        //Randomly choose a side of the screen to spawn the plane
+        //Randomly choose a side of the screen to spawn the plane.
         int choice = Random.Range(0, 3);
         //Debug.Log(choice);
-        //Return the randomised spawn point
+        //Return the randomised spawn point.
         return spawnablePoints[choice];
     }
     
     // This method makes sure it is facing the right way at instantiation.
     private float RotationControl()
     {
-        //Get the spawn position
+        //Get the spawn position.
         Vector2 spawnPosition = transform.position;
         float rot;
         
-        //If the spawner is on the top side of the screen
+        //Checks if the spawner is on the top side of the screen.
         if (spawnPosition.y == 8)
         {
             rot = Random.Range(135, 226);
         }
-        //If the spawner is on the right side of the screen
+        //Checks if the spawner is on the right side of the screen.
         else if (spawnPosition.x == 11)
         {
             rot = Random.Range(45, 136);
         }
-        //If the spawner is on the left side of the screen
+        //Checks if the spawner is on the left side of the screen.
         else
         {
             rot = Random.Range(-135, -46);
         }
-        //Return the randomised rotation within the specified range
+        //Return the randomised rotation within the specified range.
         return rot;
     }
 
+    public void StartSpawning()
+    {
+        //Starts the coroutine that will spawn the planes.
+        StartCoroutine(SpawnPlane());
+    }
+    
     // This method will return the name of the plane.
     public string PlaneNamer()
     {
-        //Local variable to store the name of the plane
+        //Local variable to store the name of the plane.
         string newName;
-        //Randomly choose an Airline prefix
+        //Randomly chooses an Airline prefix.
         newName = airlinePrefix[Random.Range(0, 4)];
-        //Add a random flight number to the end of the prefix
+        //Add a random flight number to the end of the prefix.
         newName += Random.Range(0, 999).ToString();
-        //Return the name of the plane
+        //Returns the name of the plane.
         return newName;
     }
 }

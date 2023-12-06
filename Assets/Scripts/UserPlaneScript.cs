@@ -8,7 +8,7 @@ public class UserPlaneScript : PlaneMoveScript
     private void OnMouseUpAsButton()
     {
         //Checks if the game state is playing and the previous selection is not the current selection.
-        if ((GameManager.instance.State == GameState.Playing) && (GameManager.instance.PreviousSelection != gameObject))
+        if (((GameManager.instance.State == GameState.Playing) && (GameManager.instance.PreviousSelection != gameObject)) || (GameManager.instance.State == GameState.EndOfRound))
         {
             if (GameManager.instance.PreviousSelection != null)
             {

@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             //Then destroy this as there can only ever be one instance of a GameManager.
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
         //Sets the current GameState to Playing.
         UpdateGameState(GameState.Playing);
     }
@@ -55,15 +59,17 @@ public class GameManager : MonoBehaviour
         { 
             case GameState.Playing:
                 //Do something
+                HandlePlaying();
                 break;
             case GameState.EndOfRound:
                 //Do something
+                HandleEndOfRound();
                 break;
             case GameState.Paused:
                 //Do something
                 break;
             case GameState.GameOver:
-                //Calls the HandleGameOver method that allowsy the manager to halt the timescale.
+                //Calls the HandleGameOver method that allows the manager to halt the timescale.
                 HandleGameOver();
                 break;
             case GameState.Restart:
@@ -78,6 +84,30 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(State);
     }
 
+    private void HandlePlaying()
+    {
+        //Calls a function that calls a private coroutine starts the spawning of planes.
+        SpawnerScript.instance.StartSpawning();
+    }
+    private void HandleEndOfRound()
+    {
+        //Starts the coroutine that will delay the start of the next round.
+        StartCoroutine(IntervalBetweenRound());
+        //Checks if the game state now set to playing.
+        if (State == GameState.Playing)
+            //Stops the time delay coroutine.
+            StopCoroutine(IntervalBetweenRound());
+    }
+    
+    IEnumerator IntervalBetweenRound()
+    {
+        //A 25 second delay between the end of each round.
+        //It is only this long as this delay is started from when last plane is spawned.
+        yield return new WaitForSeconds(25);
+        //Changes the state of the game back to playing.
+        UpdateGameState(GameState.Playing);
+    }
+    
     private void HandleGameOver()
     {
         if (PreviousSelection != null)

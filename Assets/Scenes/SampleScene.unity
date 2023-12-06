@@ -2896,7 +2896,7 @@ MonoBehaviour:
   collisionEffect: {fileID: 4531013740045556260}
   PreviousSelection: {fileID: 0}
   UIManager: {fileID: 627559783}
-  turning: 1
+  turning: 0.2
 --- !u!4 &1372678394
 Transform:
   m_ObjectHideFlags: 0
@@ -4373,7 +4373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc035a35847e3f84cb6fbf3c0352fa5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 3.5
+  roundNumber: 0
+  _spawnInterval: 5
+  _planesToSpawn: 5
+  _planesSpawned: 0
   plane: {fileID: 4906084627895259597, guid: f8f50f71150c02e47b200334a190295e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
