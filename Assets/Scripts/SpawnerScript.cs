@@ -20,8 +20,10 @@ public class SpawnerScript : MonoBehaviour
     // This is the number of planes that have been spawned in a round.
     [SerializeField] private float _planesSpawned = 0;
 
-    // This is a reference to the prefab that will be spawned.
+    // This is a reference to the user plane prefab that will be spawned.
     [SerializeField] private GameObject plane;
+    // This is a reference to the enemy plane prefab that will be spawned.
+    [SerializeField] private GameObject skynet;
 
     // This is an array of the spawnable points.
     private static Vector2[] spawnablePoints = new Vector2[] {new Vector2(0, 8), new Vector2(11, 0), new Vector2(-11, 0)};
@@ -36,8 +38,6 @@ public class SpawnerScript : MonoBehaviour
             instance = this;
             //Set the round number to 1
             roundNumber = 1;
-            
-            
         }
         //If there is an instance of the SpawnerScript, destroy this.
         else
@@ -69,22 +69,40 @@ public class SpawnerScript : MonoBehaviour
         //Checks if the game is playing
         while (GameManager.instance.State == GameState.Playing)
         {
-            Debug.Log("co");
+            
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
-            // This instantiates plane prefab while also setting this instance to a variable.
-            Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
-            //Shifts the position for spawner for next spawning.
-            transform.position = MoveSpawner();
-            //Increments the number of planes spawned.
-            _planesSpawned++;
-            //Checks all planes to be spawned in round have been spawned.
-            CheckEndOfRound();
+            
+            //For every 7th plane spawned and roundNumber > 3, spawn an enemy plane.
+            if ((_planesSpawned % 7 == 0) && (_planesSpawned != 0) && (roundNumber > 3))
+            {
+                //Calls a method to spawn an enemy plane.
+                SpawnEnemy();
+                //Increments the number of planes spawned.
+                _planesSpawned++;
+            }
+            else
+            {
+                // This instantiates a user plane.
+                Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
+                //Shifts the position for spawner for next spawning.
+                transform.position = MoveSpawner();
+                //Increments the number of planes spawned.
+                _planesSpawned++;
+                //Checks all planes to be spawned in round have been spawned.
+                CheckEndOfRound();
+            }
         }
         //Stops the coroutine. Using stop method inside of coroutine does not work on this instance.
         yield break;
     }
-    
+
+    private void SpawnEnemy()
+    {
+        // This instantiates an enemy plane.
+        Instantiate(skynet, transform.position, Quaternion.Euler(0, 0, RotationControl()));
+    }
+
     // This method will move the spawner to a random point on the screen.
     private Vector2 MoveSpawner()
     {

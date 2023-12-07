@@ -4378,6 +4378,7 @@ MonoBehaviour:
   _planesToSpawn: 5
   _planesSpawned: 0
   plane: {fileID: 4906084627895259597, guid: f8f50f71150c02e47b200334a190295e, type: 3}
+  skynet: {fileID: 5463387862401770132, guid: d54f79a2c1423ca429b538a8faa00b5e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
