@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkynetScript : PlaneMoveScript
@@ -13,6 +15,8 @@ public class SkynetScript : PlaneMoveScript
 
     //Variable to hold the current state of Skynet.
     [SerializeField] private SkynetState _state;
+
+    [SerializeField] private Collider2D[] _planesInRange;
 
     //Run after Awake and before Start.
     private void OnEnable()
@@ -33,10 +37,33 @@ public class SkynetScript : PlaneMoveScript
                 break;
             case SkynetState.Chasing:
                 _state = SkynetState.Chasing;
+                HandleChaseState();
                 break;
             default:
                 break;
         }
+    }
+
+    void HandleIdleMovement()
+    {
+        //If the plane is not at the target position.
+
+     
+        
+    }
+    
+    void HandleChaseState()
+    {
+
+    }
+
+    IEnumerator RadarPing()
+    {
+        while (GameManager.instance.State == GameState.Playing)
+        {
+            
+        }
+        yield break;
     }
 }
 

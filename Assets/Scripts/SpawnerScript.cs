@@ -73,8 +73,8 @@ public class SpawnerScript : MonoBehaviour
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
             
-            //For every 7th plane spawned and roundNumber > 3, spawn an enemy plane.
-            if ((_planesSpawned % 7 == 0) && (_planesSpawned != 0) && (roundNumber > 3))
+            //For every 7th plane spawned and roundNumber is greater than 2, spawn an enemy plane.
+            if ((_planesSpawned % 7 == 0) && (_planesSpawned != 0) && (roundNumber > 2))
             {
                 //Calls a method to spawn an enemy plane.
                 SpawnEnemy();
@@ -83,7 +83,7 @@ public class SpawnerScript : MonoBehaviour
             }
             else
             {
-                // This instantiates a user plane.
+                //This instantiates a user plane.
                 Instantiate(plane, transform.position, Quaternion.Euler(0, 0, RotationControl()));
                 //Shifts the position for spawner for next spawning.
                 transform.position = MoveSpawner();
@@ -99,7 +99,8 @@ public class SpawnerScript : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        // This instantiates an enemy plane.
+        //This instantiates an enemy plane.
+        Debug.Log("Enemy Spawned");
         Instantiate(skynet, transform.position, Quaternion.Euler(0, 0, RotationControl()));
     }
 

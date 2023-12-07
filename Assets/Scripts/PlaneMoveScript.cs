@@ -101,7 +101,7 @@ public class PlaneMoveScript : MonoBehaviour
         //Checks if the collision is with the plane.
         if (collision.gameObject.CompareTag("Plane"))
         {
-            //Debugiing purposes.
+            //Debuging purposes.
             Debug.Log("Collision Detected" + collision.gameObject.name);
             //Destroys the floating text.
             Destroy(transform.GetChild(0).gameObject);

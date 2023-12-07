@@ -163,12 +163,12 @@ public class GameManager : MonoBehaviour
         bearing = 360 - bearing;
         //Gets the current rotation of the plane.
         float currentBearing = rb.rotation;
-        Debug.Log("Current Bearing: " + currentBearing);
+        //Debug.Log("Current Bearing: " + currentBearing);
         float deltaBearing = bearing - currentBearing;
         //Checks if the bearing to change by is not 0.
         if (deltaBearing != 0)
         {
-            Debug.Log("Delta Bearing: " + deltaBearing);
+            //Debug.Log("Delta Bearing: " + deltaBearing);
             PlaneMoveScript planeMoveScript = PreviousSelection.GetComponent<PlaneMoveScript>();
             planeMoveScript.StartRotate(bearing);
         }
