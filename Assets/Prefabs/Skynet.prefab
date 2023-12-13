@@ -337,3 +337,9 @@ MonoBehaviour:
   _PlaneSpeed: 0.46
   floatingText: {fileID: 4875994836209840433}
   textmesh: {fileID: 6789473071951011826}
+  _state: 0
+  _planesInRange: []
+  _radarRange: 5
+  mask:
+    serializedVersion: 2
+    m_Bits: 0

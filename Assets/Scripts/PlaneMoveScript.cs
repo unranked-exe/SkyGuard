@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 public class PlaneMoveScript : MonoBehaviour
 {
     //Reference to the Rigidbody2D component of the plane
-    [SerializeField] private Rigidbody2D _PlaneRB;
+    [SerializeField] protected Rigidbody2D _PlaneRB;
     //Reference to the speed of the plane
-    [SerializeField] private float _PlaneSpeed;
+    [SerializeField] protected float _PlaneSpeed;
 
     //Reference to the floating text game object
     [SerializeField] private GameObject floatingText;
@@ -33,7 +33,7 @@ public class PlaneMoveScript : MonoBehaviour
     }
 
     //Function to move the plane upright
-    void MovePlane()
+    protected void MovePlane()
     {
         //Set the velocity of the plane to the up direction multiplied by the speed
         _PlaneRB.velocity = transform.up * _PlaneSpeed;
@@ -69,7 +69,7 @@ public class PlaneMoveScript : MonoBehaviour
     }
 
     //Function to output the bearing of the plane for Floating Text
-    private void OutputBearing()
+    protected void OutputBearing()
     {
         //Checks if the text of the floating text is not the same as the name of the plane
         if (textmesh.text != gameObject.name)

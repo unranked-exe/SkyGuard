@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4774766717335423793}
   - component: {fileID: 5883037837808328218}
   - component: {fileID: 3687666774722484083}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FloatingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 5138979659405754671}
   - component: {fileID: 2823742823630037294}
   - component: {fileID: 7171131078666125163}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: NotSeen
   m_Icon: {fileID: 0}
