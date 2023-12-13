@@ -92,11 +92,13 @@ public class SkynetScript : PlaneMoveScript
         //If the plane is not at the target position.
         StartCoroutine(RadarPing());
     }
+
     void HandleChasingState()
     {
         StopCoroutine(RadarPing());
-        //StartCoroutine(TurnToAttack());
+        StartCoroutine(TurnToAttack());
     }
+
 
     IEnumerator PlaneDetectionDelay()
     {
@@ -135,28 +137,68 @@ public class SkynetScript : PlaneMoveScript
     }
 
 
-    /*IEnumerator TurnToAttack()
+    IEnumerator TurnToAttack()
     {
+        //Checks if the game state is playing and the state of the AI is Chasing.
+        while ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
+        {
+            //Checks if the target plane is active.
+            if (targetPlane.activeInHierarchy)
+            {
+                //Calculates the direction of the target plane.
+                Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
+                //Calculates the rotation of the AI to face the target plane.
+                float rotationSteer = Vector2.Dot(direction, transform.up);
+                Debug.Log(rotationSteer);
+                //Wait for next fixed update frame before performing another rotation.
+                yield return new WaitForFixedUpdate();
+            }
+            else
+            {
+                //Updates the state of the AI to Idle.
+                updateSkynetState(SkynetState.Idle);
+            }
+        }
+        yield break;
+    }
 
-        Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
-        float rotationSteer = Vector3.Cross(direction, transform.up).z;
-        float currentbearing = 360 - transform.rotation.eulerAngles.z;
-        Debug.Log(currentbearing);
-        StartRotate(currentbearing + angle);
-        yield return new WaitForFixedUpdate();
+   /* IEnumerator TurnToAttack()
+    {
+        //Checks if the game state is playing and the state of the AI is Chasing.
+        while ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
+        {
+            //Checks if the target plane is active.
+            if (targetPlane.activeInHierarchy)
+            {
+                //Calculates the direction of the target plane.
+                Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
+                //Calculates the rotation of the AI to face the target plane.
+                float rotationSteer = Vector2.Dot(direction, transform.up);
+                Debug.Log(rotationSteer);
+                //Rotates the AI to face the target plane.
+                //_PlaneRB.angularVelocity = -rotationSteer * 75f;
+                //Wait for next fixed update frame before performing another rotation.
+                yield return new WaitForFixedUpdate();
+            }
+            else
+            {
+                //Updates the state of the AI to Idle.
+                updateSkynetState(SkynetState.Idle);
+            }
+        }
+        yield break;
     }*/
-
 
     /*private void FixedUpdate()
     {
-    if (_state == SkynetState.Chasing && targetPlane != null)
+    if ((_state == SkynetState.Chasing) && (targetPlane != null))
         MovePlane();
         Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
-        float rotationSteer = Vector3.Cross(direction, transform.up).z;
+        float rotationSteer = Vector2.Dot(direction, transform.up);
         Debug.Log(rotationSteer);
-        *//*_PlaneRB.angularVelocity = -rotationSteer * 75f;
+        //_PlaneRB.angularVelocity = -rotationSteer * 75f;
         _PlaneSpeed += 0.001f;
-        OutputBearing();*//*
+        OutputBearing();
     }*/
 }
 
