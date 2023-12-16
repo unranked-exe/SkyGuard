@@ -24,8 +24,6 @@ public class PlaneMoveScript : MonoBehaviour
 
     private void Start()
     {
-        //Set the rotation of the Floating Text to upright
-        floatingText.transform.rotation = Quaternion.identity;
         //Call the OutputBearing function
         OutputBearing();
         //Call the MovePlane function
@@ -69,30 +67,31 @@ public class PlaneMoveScript : MonoBehaviour
     }
 
     //Function to output the bearing of the plane for Floating Text
-    protected void OutputBearing()
+    private void OutputBearing()
     {
-        //Checks if the text of the floating text is not the same as the name of the plane
-        if (textmesh.text != gameObject.name)
+        //Set the rotation of the Floating Text to upright
+        floatingText.transform.rotation = Quaternion.identity;
+        //Set the text of the floating text to the name of the plane
+        textmesh.text = gameObject.name;
+        //Get the rotation of the plane
+        int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
+        //Calcualtes the real bearing of the plane
+        rot = 360 - rot;
+        //Converts the bearing to a string.
+        string rotString = rot.ToString();
+        //Checks if the bearing is less than 100 and adds 0's to the front 
+        //of the string to make it 3 digits long.
+        if (rotString.Length == 1)
         {
-            floatingText.transform.rotation = Quaternion.identity;
-            //Set the text of the floating text to the name of the plane
-            textmesh.text = gameObject.name;
-            //Get the rotation of the plane
-            int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
-            //Calcualtes the real bearing of the plane
-            rot = 360 - rot;
-            string rotString = rot.ToString();
-            if (rotString.Length == 1)
-            {
-                rotString = "00" + rotString;
-            }
-            else if (rotString.Length == 2)
-            {
-                rotString = "0" + rotString;
-            }
-            //Appends the text of the floating text with it's rotation.
-            textmesh.text += "\n" + rotString  + "°";
+            rotString = "00" + rotString;
         }
+        else if (rotString.Length == 2)
+        {
+            rotString = "0" + rotString;
+            floatingText.transform.rotation = Quaternion.identity;
+        }
+        //Appends the text of the floating text with it's rotation.
+        textmesh.text += "\n" + rotString + "°";
     }
 
     //Function to destroy the plane if collision is detected.
