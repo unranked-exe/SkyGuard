@@ -54,4 +54,24 @@ public class AudioManager : MonoBehaviour
                 break;
         }
     }
+
+    public void ChangeBGMusicVolume(float volume)
+    {
+        //Sets the background music volume to the volume passed in.
+        backgroundMusicSource.volume = volume;
+    }
+
+    public void ToggleBGMusic(bool toggle)
+    {
+        //Inverts the toggle passed in.
+        toggle = !toggle;
+        //Sets the background music to the toggle passed in.
+        backgroundMusicSource.mute = toggle;
+    }
+
+    public void ChangeSFXVolume(float volume)
+    {
+        //Sets the sound effect volume to the volume passed in.
+        soundEffectSource.volume = volume;
+    }
 }
