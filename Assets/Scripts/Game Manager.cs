@@ -58,23 +58,25 @@ public class GameManager : MonoBehaviour
         switch(newState)
         { 
             case GameState.Playing:
-                //Do something
                 HandlePlaying();
                 break;
             case GameState.EndOfRound:
-                //Do something
                 HandleEndOfRound();
                 break;
             case GameState.Paused:
-                //Do something
+                break;
+            case GameState.Resume:
+                HandleResume();
                 break;
             case GameState.GameOver:
                 //Calls the HandleGameOver method that allows the manager to halt the timescale.
                 HandleGameOver();
                 break;
             case GameState.Restart:
-                //Do something
                 HandleRestart();
+                break;
+            case GameState.ExitToMenu:
+                HandleExitToMenu();
                 break;
             default:
                 //For debugging purposes in later stages of development.
@@ -98,13 +100,12 @@ public class GameManager : MonoBehaviour
             //Stops the time delay coroutine.
             StopCoroutine(IntervalBetweenRound());
     }
-    
-    IEnumerator IntervalBetweenRound()
+
+    private void HandleResume()
     {
-        //A 25 second delay between the end of each round.
-        //It is only this long as this delay is started from when last plane is spawned.
-        yield return new WaitForSeconds(25);
-        //Changes the state of the game back to playing.
+        //Resumes all movement in the game.
+        Time.timeScale = 1;
+        //Updates the game state to playing.
         UpdateGameState(GameState.Playing);
     }
     
@@ -123,6 +124,23 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         //Reloads the current scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void HandleExitToMenu()
+    {
+        //Resumes all movement in the game.
+        Time.timeScale = 1;
+        //Loads the main menu scene.
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator IntervalBetweenRound()
+    {
+        //A 25 second delay between the end of each round.
+        //It is only this long as this delay is started from when last plane is spawned.
+        yield return new WaitForSeconds(25);
+        //Changes the state of the game back to playing.
+        UpdateGameState(GameState.Playing);
     }
 
     //Function to add to the score counter.
@@ -181,6 +199,8 @@ public enum GameState
     Playing,
     EndOfRound,
     Paused,
+    Resume,
     GameOver,
-    Restart
+    Restart,
+    ExitToMenu
 }

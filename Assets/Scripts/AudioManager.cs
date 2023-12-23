@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     //Creates 1 instance of the AudioManager
-    private static AudioManager instance;
+    public static AudioManager instance;
 
     [Header("-------- Audio Sources --------")]
     //Reference to the audio sources
@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     //Reference to the audio clips
     [SerializeField] private AudioClip backgroundSound;
     [SerializeField] private AudioClip crashSound;
+    [SerializeField] private AudioClip spawnSound;
 
     private void Awake()
     {
@@ -53,6 +54,12 @@ public class AudioManager : MonoBehaviour
                 soundEffectSource.PlayOneShot(crashSound);
                 break;
         }
+    }
+
+    //Function to play the spawn sound effect.
+    public void PlaySpawnSound()
+    {
+        soundEffectSource.PlayOneShot(spawnSound);
     }
 
     public void ChangeBGMusicVolume(float volume)

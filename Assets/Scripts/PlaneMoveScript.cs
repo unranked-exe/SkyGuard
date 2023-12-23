@@ -135,6 +135,8 @@ public class PlaneMoveScript : MonoBehaviour
         //Has come into Camera View and now has a tag of Plane.
         gameObject.tag = "Plane";
         Debug.Log("Plane visible");
+        //Plays the spawn sound effect.
+        AudioManager.instance.PlaySpawnSound();
     }
 
     private void FixedUpdate()

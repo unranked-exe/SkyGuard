@@ -57,11 +57,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void Resume()
+    {
+        //Sets the GameState to Resume state.
+        GameManager.instance.UpdateGameState(GameState.Resume);
+    }
+    
+    
+    
     //Called when the Restart button is pressed.
     public void Restart()
     {
         //Sets the GameState to Restart.
         GameManager.instance.UpdateGameState(GameState.Restart);
+    }
+
+    //Called when the Exit button is pressed on both the GameOverScreen and the PauseScreen.
+    public void ExitToMenu()
+    {
+        //Sets the GameState to ExitToMenu.
+        GameManager.instance.UpdateGameState(GameState.ExitToMenu);
     }
 
     //Called by Game Manager to update the score text.
