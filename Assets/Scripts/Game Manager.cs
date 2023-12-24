@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
                 HandleEndOfRound();
                 break;
             case GameState.Paused:
+                HandlePaused();
                 break;
             case GameState.Resume:
                 HandleResume();
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
                 //For debugging purposes in later stages of development.
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
+        Debug.Log("State: " + State);
         //Calls the OnGameStateChanged event.
         OnGameStateChanged?.Invoke(State);
     }
@@ -101,12 +103,16 @@ public class GameManager : MonoBehaviour
             StopCoroutine(IntervalBetweenRound());
     }
 
+    private void HandlePaused()
+    {
+        //Pauses all movement in the game.
+        Time.timeScale = 0;
+    }
+
     private void HandleResume()
     {
         //Resumes all movement in the game.
         Time.timeScale = 1;
-        //Updates the game state to playing.
-        UpdateGameState(GameState.Playing);
     }
     
     private void HandleGameOver()
