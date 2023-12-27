@@ -96,13 +96,9 @@ public class SkynetScript : PlaneMoveScript
     void HandleChasingState()
     {
         StopCoroutine(RadarPing());
-        //For loop to check how many times the turn function should be called in order to face the target plane.
-        //With each round after the 3rd round, the number of times the turn function is called increases by 1.
         StartCoroutine(TurningToPlane());
     }
-        //StartCoroutine(TurningToPlane());
-
-        IEnumerator PlaneDetectionDelay()
+    IEnumerator PlaneDetectionDelay()
     {
         //Wait for 12 seconds.
         yield return new WaitForSeconds(12f);
@@ -142,9 +138,13 @@ public class SkynetScript : PlaneMoveScript
 
     IEnumerator TurningToPlane()
     {
+        //For loop to check how many times the turn function should be called in order to face the target plane.
+        //With each round after the 3rd round, the number of times the turn function is called increases by 1.
         for (int i = 0; i < SpawnerScript.instance.roundNumber - 2; i++)
         {
+            //Calls the turn function to face the target plane.
             TurnToTarget();
+            //Wait for 5 seconds before performing another turn.
             yield return new WaitForSeconds(5f);
         }
         yield break;
