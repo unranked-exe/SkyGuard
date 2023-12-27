@@ -31,7 +31,7 @@ public class PlaneMoveScript : MonoBehaviour
     }
 
     //Function to move the plane upright
-    protected void MovePlane()
+    private void MovePlane()
     {
         //Set the velocity of the plane to the up direction multiplied by the speed
         _PlaneRB.velocity = transform.up * _PlaneSpeed;
@@ -54,7 +54,7 @@ public class PlaneMoveScript : MonoBehaviour
         {
             MovePlane();
             //Calucaltes rotation per frame to smoothly turn towards the target bearing.
-            currentBearing = Mathf.MoveTowardsAngle(currentBearing, targetBearing, 1);
+            currentBearing = Mathf.MoveTowardsAngle(currentBearing, targetBearing, GameManager.instance.turning);
             //Sets the rotation of the plane to the current bearing.
             _PlaneRB.MoveRotation(currentBearing);
             //Displays this change in bearing in the floating text.

@@ -4568,7 +4568,7 @@ MonoBehaviour:
   collisionEffect: {fileID: 4531013740045556260}
   PreviousSelection: {fileID: 0}
   UIManager: {fileID: 627559783}
-  turning: 0.2
+  turning: 0.8
 --- !u!4 &1372678394
 Transform:
   m_ObjectHideFlags: 0

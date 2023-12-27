@@ -45,7 +45,7 @@ public class SpawnerScript : MonoBehaviour
             Destroy(gameObject);
         }
         //(Testing Purposes) Spawns an enemy plane.
-        //SpawnEnemy();
+        SpawnEnemy();
     }
 
     // This method will check if all planes have been spawned in a round.

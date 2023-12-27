@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     //Reference to the score counter.
     private int score = 0;
 
-    public float turning = 1f;
+    public float turning = 0.8f;
     
     private void Awake()
     {

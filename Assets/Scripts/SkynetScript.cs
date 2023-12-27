@@ -81,13 +81,13 @@ public class SkynetScript : PlaneMoveScript
 
     void HandleSpawnedInState()
     {
-        //Starts the coroutine to wait for 8 seconds.
+        //Starts the coroutine to wait for 12 seconds.
         StartCoroutine(PlaneDetectionDelay());
     }
 
     void HandleIdleState()
     {
-        //Stops the coroutine to wait for 8 seconds.
+        //Stops the coroutine to wait for 12 seconds.
         StopCoroutine(PlaneDetectionDelay());
         //If the plane is not at the target position.
         StartCoroutine(RadarPing());
@@ -96,14 +96,16 @@ public class SkynetScript : PlaneMoveScript
     void HandleChasingState()
     {
         StopCoroutine(RadarPing());
-        StartCoroutine(TurnToAttack());
+
+
+        TurnToAttack();
     }
 
 
     IEnumerator PlaneDetectionDelay()
     {
-        //Wait for 8 seconds.
-        yield return new WaitForSeconds(8f);
+        //Wait for 12 seconds.
+        yield return new WaitForSeconds(12f);
         //Set the state of the AI to Idle to allow it to start detection of planes.
         updateSkynetState(SkynetState.Idle);
     }
@@ -129,6 +131,8 @@ public class SkynetScript : PlaneMoveScript
             else
             {
                 Debug.Log("Plane not in range");
+                //Resets the target plane to null.
+                _planeInRange = null;
             }
             //Wait for 2 seconds before performing another search.
             yield return new WaitForSeconds(2f);
@@ -137,21 +141,31 @@ public class SkynetScript : PlaneMoveScript
     }
 
 
-    IEnumerator TurnToAttack()
+    private void TurnToAttack()
     {
         //Checks if the game state is playing and the state of the AI is Chasing.
-        while ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
+        if ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
         {
-            //Checks if the target plane is active.
-            if (targetPlane.activeInHierarchy)
+            //Checks if the target plane is visible in the scene.
+            if (targetPlane.tag == "Plane")
             {
                 //Calculates the direction of the target plane.
                 Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
                 //Calculates the rotation of the AI to face the target plane.
-                float rotationSteer = Vector2.Dot(direction, transform.up);
-                Debug.Log(rotationSteer);
-                //Wait for next fixed update frame before performing another rotation.
-                yield return new WaitForFixedUpdate();
+                float rotationAngle = Vector2.SignedAngle(transform.up, direction);
+                Debug.Log(rotationAngle);
+                //Gets the current rotation of the AI.
+                float bearing = transform.rotation.eulerAngles.z;
+                //Converts the bearing to its true bearing.
+                bearing = 360 - bearing;
+                Debug.Log(bearing);
+                //Calculates a new bearing for the AI to face the target plane.
+                rotationAngle = bearing - rotationAngle;
+                Debug.Log(rotationAngle);
+                //Convert the true bearing to Unity's bearing.
+                rotationAngle = 360 - rotationAngle;
+                //Rotates the AI to face the target plane.
+                StartRotate(rotationAngle);
             }
             else
             {
@@ -159,26 +173,33 @@ public class SkynetScript : PlaneMoveScript
                 updateSkynetState(SkynetState.Idle);
             }
         }
-        yield break;
     }
 
-   /* IEnumerator TurnToAttack()
+    /*private void TurnToAttack()
     {
-        //Checks if the game state is playing and the state of the AI is Chasing.
+        
+    StartRotate(360 - rotationAngle);
+    
+    
+    //Checks if the game state is playing and the state of the AI is Chasing.
         while ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
         {
-            //Checks if the target plane is active.
-            if (targetPlane.activeInHierarchy)
+            //Checks if the target plane is visible in the scene.
+            if (targetPlane.tag == "Plane")
             {
                 //Calculates the direction of the target plane.
                 Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
                 //Calculates the rotation of the AI to face the target plane.
-                float rotationSteer = Vector2.Dot(direction, transform.up);
+                float rotationSteer = Vector2.SignedAngle(transform.up, direction);
                 Debug.Log(rotationSteer);
                 //Rotates the AI to face the target plane.
-                //_PlaneRB.angularVelocity = -rotationSteer * 75f;
-                //Wait for next fixed update frame before performing another rotation.
-                yield return new WaitForFixedUpdate();
+                int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
+                //Calcualtes the real bearing of the plane
+                //rot = 360 - rot;
+                rotationSteer = rot - rotationSteer;
+                Debug.Log(rotationSteer);
+                StartRotate(rotationSteer);
+                updateSkynetState(SkynetState.Idle);
             }
             else
             {
@@ -186,7 +207,6 @@ public class SkynetScript : PlaneMoveScript
                 updateSkynetState(SkynetState.Idle);
             }
         }
-        yield break;
     }*/
 
     /*private void FixedUpdate()

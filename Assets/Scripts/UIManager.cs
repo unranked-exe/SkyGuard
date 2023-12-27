@@ -125,8 +125,12 @@ public class UIManager : MonoBehaviour
         {
             //Converts the input to an integer.
             int bearing = int.Parse(input);
-            //Calls the MoveRotation method in the Game Manager.
-            GameManager.instance.MoveRotation(bearing);
+            //Checks if the bearing is between 0 and 360.
+            if (bearing <= 360)
+            {
+                //Calls the MoveRotation method in the Game Manager.
+                GameManager.instance.MoveRotation(bearing);
+            }
         }
     }
 
