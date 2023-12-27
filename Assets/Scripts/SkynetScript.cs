@@ -96,13 +96,13 @@ public class SkynetScript : PlaneMoveScript
     void HandleChasingState()
     {
         StopCoroutine(RadarPing());
-
-
-        TurnToAttack();
+        //For loop to check how many times the turn function should be called in order to face the target plane.
+        //With each round after the 3rd round, the number of times the turn function is called increases by 1.
+        StartCoroutine(TurningToPlane());
     }
+        //StartCoroutine(TurningToPlane());
 
-
-    IEnumerator PlaneDetectionDelay()
+        IEnumerator PlaneDetectionDelay()
     {
         //Wait for 12 seconds.
         yield return new WaitForSeconds(12f);
@@ -140,8 +140,17 @@ public class SkynetScript : PlaneMoveScript
         yield break;
     }
 
+    IEnumerator TurningToPlane()
+    {
+        for (int i = 0; i < SpawnerScript.instance.roundNumber - 2; i++)
+        {
+            TurnToTarget();
+            yield return new WaitForSeconds(5f);
+        }
+        yield break;
+    }
 
-    private void TurnToAttack()
+    private void TurnToTarget()
     {
         //Checks if the game state is playing and the state of the AI is Chasing.
         if ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
@@ -174,40 +183,6 @@ public class SkynetScript : PlaneMoveScript
             }
         }
     }
-
-    /*private void TurnToAttack()
-    {
-        
-    StartRotate(360 - rotationAngle);
-    
-    
-    //Checks if the game state is playing and the state of the AI is Chasing.
-        while ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
-        {
-            //Checks if the target plane is visible in the scene.
-            if (targetPlane.tag == "Plane")
-            {
-                //Calculates the direction of the target plane.
-                Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
-                //Calculates the rotation of the AI to face the target plane.
-                float rotationSteer = Vector2.SignedAngle(transform.up, direction);
-                Debug.Log(rotationSteer);
-                //Rotates the AI to face the target plane.
-                int rot = Mathf.RoundToInt(transform.rotation.eulerAngles.z);
-                //Calcualtes the real bearing of the plane
-                //rot = 360 - rot;
-                rotationSteer = rot - rotationSteer;
-                Debug.Log(rotationSteer);
-                StartRotate(rotationSteer);
-                updateSkynetState(SkynetState.Idle);
-            }
-            else
-            {
-                //Updates the state of the AI to Idle.
-                updateSkynetState(SkynetState.Idle);
-            }
-        }
-    }*/
 
     /*private void FixedUpdate()
     {

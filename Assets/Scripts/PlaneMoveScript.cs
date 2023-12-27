@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 public class PlaneMoveScript : MonoBehaviour
 {
     //Reference to the Rigidbody2D component of the plane
-    [SerializeField] protected Rigidbody2D _PlaneRB;
+    [SerializeField] private Rigidbody2D _PlaneRB;
     //Reference to the speed of the plane
-    [SerializeField] protected float _PlaneSpeed;
+    [SerializeField] private float _PlaneSpeed;
 
     //Reference to the floating text game object
     [SerializeField] private GameObject floatingText;
