@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject PreviousSelection;
 
     //Reference to the UI Canvas.
-    [SerializeField] private UIManager UIManager;
+    [SerializeField] public UIManager UIManager;
 
     //Reference to the score counter.
     private int score = 0;

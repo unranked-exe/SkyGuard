@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip backgroundSound;
     [SerializeField] private AudioClip crashSound;
     [SerializeField] private AudioClip spawnSound;
+    [SerializeField] private AudioClip lockingSound;
 
     private void Awake()
     {
@@ -60,6 +61,19 @@ public class AudioManager : MonoBehaviour
     public void PlaySpawnSound()
     {
         soundEffectSource.PlayOneShot(spawnSound);
+    }
+
+    //Function to play the locking sound effect.
+    public void PlayLockingSound()
+    {
+        soundEffectSource.clip = lockingSound;
+        soundEffectSource.Play();
+    }
+
+    //Function to stop the locking sound effect.
+    public void StopSoundEffectsSound()
+    {
+        soundEffectSource.Stop();
     }
 
     public void ChangeBGMusicVolume(float volume)

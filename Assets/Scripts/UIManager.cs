@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class UIManager : MonoBehaviour
 
     //Reference to the selected plane text component in UI Window
     [SerializeField] private TextMeshProUGUI selectedPlaneUIWindow;
+    //References to the alarm images in UI Window
+    [SerializeField] private Image alarm1;
+    [SerializeField] private Image alarm2;
+
 
 
     private void Awake()
@@ -149,6 +154,24 @@ public class UIManager : MonoBehaviour
     {
         AudioManager.instance.ChangeSFXVolume(volume);
     }
+
+    //Alarm Functions
+    
+    //Turns the alarm images red
+    public void AlarmOn()
+    {
+        alarm1.color = Color.red;
+        alarm2.color = Color.red;
+    }
+
+    //Turns the alarm images black
+    public void AlarmOff()
+    {
+        alarm1.color = Color.black;
+        alarm2.color = Color.black;
+    }
+
+
 
     private void Update()
     {

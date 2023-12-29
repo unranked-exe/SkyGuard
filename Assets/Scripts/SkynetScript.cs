@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SkynetScript : PlaneMoveScript
@@ -39,7 +40,7 @@ public class SkynetScript : PlaneMoveScript
     }
 
     //Updates the state of Skynet.
-    private void updateSkynetState (SkynetState skynetState)
+    private void updateSkynetState(SkynetState skynetState)
     {
         //Set the state of Skynet to the passed in state.
         _state = skynetState;
@@ -64,12 +65,13 @@ public class SkynetScript : PlaneMoveScript
             //If the state is MissileLocking.
             case SkynetState.MissileLocking:
                 //Call the MissileLocking function.
-                //HandleMissileLockingState();
+                HandleMissileLockingState();
                 break;
             //If the state is MissileOut.
             case SkynetState.MissileOut:
                 //Call the MissileOut function.
                 //HandleMissileOutState();
+                Debug.Log("Missile Out");
                 break;
             //If the state is Despawn.
             case SkynetState.Despawn:
@@ -98,6 +100,13 @@ public class SkynetScript : PlaneMoveScript
         StopCoroutine(RadarPing());
         StartCoroutine(TurningToPlane());
     }
+
+    void HandleMissileLockingState()
+    {
+        //Starts the coroutine to check whether the missile is locked on.
+        StartCoroutine(MissileLock());
+    }
+
     IEnumerator PlaneDetectionDelay()
     {
         //Wait for 12 seconds.
@@ -105,7 +114,6 @@ public class SkynetScript : PlaneMoveScript
         //Set the state of the AI to Idle to allow it to start detection of planes.
         updateSkynetState(SkynetState.Idle);
     }
-
 
     IEnumerator RadarPing()
     {
@@ -138,15 +146,77 @@ public class SkynetScript : PlaneMoveScript
 
     IEnumerator TurningToPlane()
     {
+
         //For loop to check how many times the turn function should be called in order to face the target plane.
         //With each round after the 3rd round, the number of times the turn function is called increases by 1.
         for (int i = 0; i < SpawnerScript.instance.roundNumber - 2; i++)
         {
-            //Calls the turn function to face the target plane.
-            TurnToTarget();
-            //Wait for 5 seconds before performing another turn.
-            yield return new WaitForSeconds(5f);
+            //Works out the direction of from the AI to the target plane.
+            Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
+            //Checks if target plane is within 45 degrees of the AI using dot product.
+            if (Vector2.Dot(transform.up, direction) > 0.866f)
+            {
+                //Updates the state of the AI to MissileLocking.
+                updateSkynetState(SkynetState.MissileLocking);
+                Debug.Log("Locking Missile");
+                yield break;
+            }
+            else
+            {
+                //Checks if the target plane is not in scene.
+                if (targetPlane == null)
+                {
+                    //Updates the state of the AI to Idle.
+                    updateSkynetState(SkynetState.Idle);
+                    yield break;
+                }
+                else
+                {
+                    //Calls the turn function to face the target plane.
+                    TurnToTarget();
+                    //Wait for 5 seconds before performing another turn.
+                    yield return new WaitForSeconds(5f);
+                }
+            }
         }
+    }
+
+    IEnumerator MissileLock()
+    {
+        //Turns on the alarm in the UI Input Window.
+        GameManager.instance.UIManager.AlarmOn();
+        //Plays the locking sound effect.
+        AudioManager.instance.PlayLockingSound();
+        yield return new WaitForSeconds(2f);
+        //Turns off the alarm in the UI Input Window.
+        GameManager.instance.UIManager.AlarmOff();
+        //Stops the locking sound effect.
+        AudioManager.instance.StopSoundEffectsSound();
+        Debug.Log("Alarm off");
+        //Checks if the target plane is in the scene.
+        if (targetPlane != null)
+        {
+            //Works out the direction of from the AI to the target plane.
+            Vector2 direction = (targetPlane.transform.position - transform.position).normalized;
+            //Checks if target plane is within 45 degrees of the AI using dot product.
+            if (Vector2.Dot(transform.up, direction) > 0.866f)
+            {
+                updateSkynetState(SkynetState.MissileOut);
+            }
+            else
+            {
+                Debug.Log("Locked 1, Miss 2");
+                //Updates the state of the AI to Idle.
+                updateSkynetState(SkynetState.Idle);
+            }
+        }
+        else
+        {
+            Debug.Log("Plane is out of bounds");
+            //Updates the state of the AI to Idle.
+            updateSkynetState(SkynetState.Idle);
+        }
+        //Stops the coroutine.
         yield break;
     }
 
@@ -155,8 +225,8 @@ public class SkynetScript : PlaneMoveScript
         //Checks if the game state is playing and the state of the AI is Chasing.
         if ((GameManager.instance.State == GameState.Playing) && (_state == SkynetState.Chasing))
         {
-            //Checks if the target plane is visible in the scene.
-            if (targetPlane.tag == "Plane")
+            //Checks if the target plane is still in the scene.
+            if (targetPlane != null)
             {
                 //Calculates the direction of the target plane.
                 Vector2 direction = (targetPlane.transform.position - transform.position).normalized;

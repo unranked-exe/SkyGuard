@@ -2333,6 +2333,8 @@ MonoBehaviour:
   scoreText: {fileID: 1636310218}
   scoreCounterInEnd: {fileID: 692232700}
   selectedPlaneUIWindow: {fileID: 796346507}
+  alarm1: {fileID: 296249706}
+  alarm2: {fileID: 1458480831}
 --- !u!1 &679019860
 GameObject:
   m_ObjectHideFlags: 0
