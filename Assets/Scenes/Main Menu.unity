@@ -515,7 +515,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.15
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1465,6 +1465,7 @@ MonoBehaviour:
   crashSound: {fileID: 8300000, guid: a6072aae68255c64fb4c1f629c0fc4f4, type: 3}
   spawnSound: {fileID: 8300000, guid: 3ddec0ab1ff8a2644b10afc57a9688bc, type: 3}
   lockingSound: {fileID: 8300000, guid: 9dd2bb656e2c37f43afa31d28cd208a7, type: 3}
+  missileLockedSound: {fileID: 8300000, guid: 5ac407d9e32dcb843a3b8cde5d5930b0, type: 3}
 --- !u!4 &721444309
 Transform:
   m_ObjectHideFlags: 0

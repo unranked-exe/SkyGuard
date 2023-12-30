@@ -171,8 +171,6 @@ public class UIManager : MonoBehaviour
         alarm2.color = Color.black;
     }
 
-
-
     private void Update()
     {
         //Checks if the user presses the escape key.

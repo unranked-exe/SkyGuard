@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip crashSound;
     [SerializeField] private AudioClip spawnSound;
     [SerializeField] private AudioClip lockingSound;
+    [SerializeField] private AudioClip missileLockedSound;
 
     private void Awake()
     {
@@ -67,6 +68,13 @@ public class AudioManager : MonoBehaviour
     public void PlayLockingSound()
     {
         soundEffectSource.clip = lockingSound;
+        soundEffectSource.Play();
+    }
+
+    //Function to play the missile locked sound effect.
+    public void PlayMissileLockedSound()
+    {
+        soundEffectSource.clip = missileLockedSound;
         soundEffectSource.Play();
     }
 
