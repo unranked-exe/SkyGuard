@@ -97,7 +97,7 @@ public class PlaneMoveScript : MonoBehaviour
     //Function to destroy the plane if collision is detected.
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Checks if the collision is with the plane.
+        //Checks if the collision is with the plane or a missile.
         if (collision.gameObject.CompareTag("Plane"))
         {
             //Debuging purposes.
@@ -106,6 +106,23 @@ public class PlaneMoveScript : MonoBehaviour
             Destroy(transform.GetChild(0).gameObject);
             //Moves the collision effect to the point of collision.
             GameManager.instance.collisionEffect.transform.position = collision.GetContact(0).point;
+            //Turns off the alarm in the UI Input Window (In case Skynet Plane Crashed).
+            GameManager.instance.UIManager.AlarmOff();
+            //Stops the locked on effect (In case Skynet Plane Crashed).
+            AudioManager.instance.StopSoundEffectsSound();
+            //Sets the game state to GameOver.
+            GameManager.instance.UpdateGameState(GameState.GameOver);
+        }
+        else if (collision.gameObject.CompareTag("Missile"))
+        {
+            //Debuging purposes.
+            Debug.Log("Collision Detected" + collision.gameObject.name);
+            //Moves the collision effect to the point of collision.
+            GameManager.instance.collisionEffect.transform.position = collision.GetContact(0).point;
+            //Turns off the alarm in the UI Input Window.
+            GameManager.instance.UIManager.AlarmOff();
+            //Stops the locked on effect.
+            AudioManager.instance.StopSoundEffectsSound();
             //Sets the game state to GameOver.
             GameManager.instance.UpdateGameState(GameState.GameOver);
         }

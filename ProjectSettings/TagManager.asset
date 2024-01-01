@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Plane
   - NotSeen
+  - Missile
   layers:
   - Default
   - TransparentFX

@@ -21,6 +21,15 @@ public class MissileScript : MonoBehaviour
         _target = target;
     }
 
+    //Called when the missile is no longer in contact with the AI plane at launch.
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //Sets the collider of the missile to not be a trigger so that it will collide with planes.
+        GetComponent<Collider2D>().isTrigger = false;
+    }
+
+
+
     private void FixedUpdate()
     {
         //If the target is in the scene.
