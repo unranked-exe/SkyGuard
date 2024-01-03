@@ -75,8 +75,8 @@ public class SpawnerScript : MonoBehaviour
             // This waits for the specified amount of time.
             yield return new WaitForSeconds(_spawnInterval);
             
-            //For every 7th plane spawned and roundNumber is greater than 2, spawn an enemy plane.
-            if ((_planesSpawned % 7 == 0) && (_planesSpawned != 0) && (roundNumber > 2))
+            //For every 4th plane spawned and roundNumber is greater than 2, spawn an enemy plane.
+            if ((_planesSpawned == 3) && (_planesSpawned != 0) && (roundNumber > 2))
             {
                 //Calls a method to spawn an enemy plane.
                 SpawnEnemy();
